@@ -105,9 +105,9 @@ func (app *application) updateTodo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var input struct {
-		Text      string   `json:"text"`
+		Text      *string  `json:"text"`
 		Tag       []string `json:"tag"`
-		Completed bool     `json:"completed"`
+		Completed *bool    `json:"completed"`
 	}
 
 	err = app.readJSON(w, r, &input)
@@ -117,9 +117,17 @@ func (app *application) updateTodo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	todo.Text = input.Text
-	todo.Completed = input.Completed
-	todo.Tag = input.Tag
+	if input.Text != nil {
+		todo.Text = *input.Text
+	}
+
+	if input.Completed != nil {
+		todo.Completed = *input.Completed
+	}
+
+	if input.Tag != nil {
+		todo.Tag = input.Tag // Note that we don't need to dereference a slice.
+	}
 
 	v := validator.New()
 	if data.ValidateTodo(v, todo); !v.Valid() {

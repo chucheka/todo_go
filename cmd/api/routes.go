@@ -13,7 +13,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /v1/todoes", app.fetchTodoes)
 	mux.HandleFunc("POST /v1/todoes", app.createTodo)
 	mux.HandleFunc("GET /v1/todoes/{id}", app.fetchTodo)
-	mux.HandleFunc("PUT /v1/todoes/{id}", app.updateTodo)
+	mux.HandleFunc("PATCH /v1/todoes/{id}", app.updateTodo)
 	mux.HandleFunc("DELETE /v1/todoes/{id}", app.deleteTodo)
 
 	// APP USER ROUTES
